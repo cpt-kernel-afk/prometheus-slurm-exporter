@@ -53,6 +53,7 @@ func ParseAllocatedGPUs() float64 {
 		}
 	}
 
+	log.Infof("GPUs Allocated: %f", num_gpus)
 	return num_gpus
 }
 
@@ -67,6 +68,9 @@ func ParseTotalGPUs() float64 {
 				line = strings.Trim(line, "\"")
 				descriptor := strings.Fields(line)[1]
 				descriptor = strings.TrimPrefix(descriptor, "gpu:")
+				if strings.Contains(descriptor, "null") {
+					continue
+				}
 				descriptor = strings.Split(descriptor, "(")[0]
 				descriptor = strings.Split(descriptor, ":")[1]
 				node_gpus, _ :=  strconv.ParseFloat(descriptor, 64)
@@ -75,6 +79,7 @@ func ParseTotalGPUs() float64 {
 		}
 	}
 
+	log.Infof("GPUs Count: %f", num_gpus)
 	return num_gpus
 }
 
